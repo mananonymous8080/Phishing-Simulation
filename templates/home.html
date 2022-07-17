@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<head>
+<title>Phishing</title>
+<link rel='stylesheet' type="text/css" href="static/style_home.css">
+<link rel='stylesheet' type="text/css" href="static/nav.css">
+<link rel="shortcut icon" href="{{ url_for('static', filename='icon.png')}}">
+<script src="static/script_home.js"></script>
+</head>
+
+
+
+
+<body>
+
+<input type="submit" id="login_button" 
+style="background-color: bisque;
+float: right;"
+ {% if isLogged == True %} value={{uid}}
+ onclick="see_user()"
+ {% else %}
+ value="Login" onclick="login()"
+ {% endif %}></input>
+
+ <input type="submit"
+ {% if isLogged == True %} value="Logout"
+ style="float: right;"
+ onclick="logout()"
+ {% else %}
+ style="display: none;"
+ {% endif %}
+ ></input>
+
+
+<div style=" color: red; margin:auto;">
+  <h1>Phishing Simulation</h1>
+</div>
+
+<div class="topnav" style="margin:auto;">
+
+  <a class="active" href="#home">Home</a>
+  <a href="/apps">Apps</a>
+  <a style="float: right;" href="/dashboard">Dashboard</a>
+</div>
+
+
+
+<footer style="position: fixed;text-align: center; bottom: 0; width: 100%; border: 5px solid rgb(36, 156, 186);">
+<h2>Contact Us</h2>
+ </footer>
+</body>
+</html>
+
+
+
+
+

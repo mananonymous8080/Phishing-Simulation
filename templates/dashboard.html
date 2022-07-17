@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<head>
+  <title>DashBoard</title>  
+
+  <style>
+      table, th, td {
+  border:1px solid black;
+}
+  </style>
+</head>
+
+<body>
+    <h2>Your Traped Data</h2>
+
+    <table style="width:100%">
+        <tr>
+          <th>App</th>
+          <th>Id</th>
+          <th>Password</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+          <td>{{row[1]}}</td>
+          <td>{{row[2]}}</td>
+          <td>{{row[3]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+
+
+
+
+</body>
+
+</html>
