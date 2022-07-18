@@ -2,14 +2,14 @@
 <html>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Apps • FakeApp</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
     <link rel='stylesheet' type="text/css" href="/static/nav.css">
    
     <script src="/static/script_home.js"></script>   
    
    
      <script>
-      function generateUrl()
+      function generateUrlForInsta()
         {
           document.getElementById('url').style.display='block';
             document.getElementById('url').value=(document.location.origin+'/'+document.getElementById('login_button').value+'/instagram.com');
@@ -64,24 +64,7 @@
 </body>
     <body>
      
-        <input type="submit" id="login_button" 
-        style="background-color: bisque;
-float: right;"
-        {% if isLogged == True %} value={{uid}}
-        onclick="see_user()"
-        
-        {% else %}
-        value="Login" onclick="login()"
-        {% endif %}></input>
-       
-        <input type="submit"
-        {% if isLogged == True %} value="Logout"
-        style="float: right;"
-        onclick="logout()"
-        {% else %}
-        style="display: none;"
-        {% endif %}
-        ></input>       
+          
 
 
 
@@ -89,19 +72,39 @@ float: right;"
 
     <a  href="/">Home</a>
     <a class="active" href="/apps">Apps</a>
-    <a style="float: right;" href="/dashboard">Dashboard</a>
+    <a  href="/dashboard">Dashboard</a>
+
+    <div>
+      <input type="submit" id="login_button" 
+      style="background-color: bisque;
+    float: right;"
+      {% if isLogged == True %} value={{uid}}
+      onclick="see_user()"
+      
+      {% else %}
+      value="Login" onclick="login()"
+      {% endif %}></input>
+     
+      <input type="submit"
+      {% if isLogged == True %} value="Logout"
+      style="float: right;"
+      onclick="logout()"
+      {% else %}
+      style="display: none;"
+      {% endif %}
+      ></input>    
+    </div>
+
   </div>
 
+  
 
-
-
-  <div>
 
     <ul >
         <li class="list-service"  >
-            <img src="/static/insta.png" onclick="generateUrl()" style="cursor: pointer;">
+            <img src="/static/insta.png" onclick="generateUrlForInsta()" style="cursor: pointer;">
             <h3>Instagram</h3>
-            <button id="generate-url-btn" onclick="generateUrl()">Generate your url</button>
+            <button id="generate-url-btn" onclick="generateUrlForInsta()">Generate your url</button>
           
             <div class="urlclass">
               <input type="text"  id="url" readonly hidden></input>
@@ -125,7 +128,8 @@ float: right;"
 
 
 
-   <footer style="position: relative;text-align: center; bottom: 0; width: 100%; border: 5px solid rgb(36, 156, 186);">
-    <h2>Contact Us</h2>   
+  <footer style="position: fixed;text-align: center; bottom: 0; width: 100%; border: 5px solid rgb(36, 156, 186);">
+<h2>Contact Us</h2>
+ </footer> 
 </body>
 </html>

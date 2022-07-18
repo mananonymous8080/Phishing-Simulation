@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <head>
+  <link rel='stylesheet' type="text/css" href="/static/nav.css">
   <title>DashBoard</title>  
 
   <style>
@@ -12,6 +14,40 @@
 </head>
 
 <body>
+
+
+  <div class="topnav" style="margin:auto;">
+
+    <a  href="/">Home</a>
+    <a  href="/apps">Apps</a>
+    <a  class="active" href="/dashboard">Dashboard</a>
+
+    <div>
+      <input type="submit" id="login_button" 
+      style="background-color: bisque;
+    float: right;"
+      {% if isLogged == True %} value={{uid}}
+      onclick="see_user()"
+      
+      {% else %}
+      value="Login" onclick="login()"
+      {% endif %}></input>
+     
+      <input type="submit"
+      {% if isLogged == True %} value="Logout"
+      style="float: right;"
+      onclick="logout()"
+      {% else %}
+      style="display: none;"
+      {% endif %}
+      ></input>    
+    </div>
+
+  </div>
+
+
+
+
     <h2>Your Traped Data</h2>
 
     <table style="width:100%">

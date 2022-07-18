@@ -1,7 +1,7 @@
 <!DOCTYPE html>  
 <html>  
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png')}}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
   <head>  
 
 <style>  
@@ -10,15 +10,16 @@ body{
   background-color: pink;  
 }  
 .container {  
-    padding: 50px;  
+    padding: 20px;  
   background-color: lightblue;  
 }  
   
 input[type=text], input[type=password],input[type=email]{  
   width: 100%;  
-  padding: 15px;  
+  padding: 10px; 
   margin: 5px 0 22px 0;  
-  display: inline-block;  
+  display: inline-block; 
+  
   border: none;  
   background: #f1f1f1;  
 }  
@@ -31,7 +32,7 @@ input[type=text]:focus, input[type=password]:focus,input[type=email]:focus {
          }  
 hr {  
   border: 1px solid #f1f1f1;  
-  margin-bottom: 25px;  
+  margin-bottom: 15px;  
 }  
 .registerbtn {  
   background-color: #4CAF50;  
@@ -75,6 +76,7 @@ function checkMatchPass(){
   <hr>  
   <label for="username" ><b > Username </b></label>   
 <input type="text" id="username" name="username" placeholder= "Username" size="15" minlength="4" required 
+autocomplete="off" autocapitalize="off"
 onkeyup='{
   if(document.getElementById("username").value.trim().length>0){
   document.getElementById("userExistsWarning").style.display="none";
@@ -88,7 +90,7 @@ onkeyup='{
 
 
  <label for="email"><b>Email</b></label>  
- <input type="email" placeholder="Enter Email" name="email" required>  
+ <input type="email" placeholder="Enter Email" name="email" required autocomplete="off">  
   
 
     <label for="psw"><b>Password</b></label>  
@@ -102,7 +104,7 @@ onkeyup='{
         document.getElementById('psw-repeat').style.display='none';
       }
     }"
-    >  
+    />  
   
 
     <label for="psw-repeat" id="label-repeat" hidden><b>Re-type Password</b></label>  
@@ -110,7 +112,8 @@ onkeyup='{
      
 
     <h3 id="pswMatchText" hidden>password not matching</h3>
-    <button type="submit" id="registerbtn" class="registerbtn" >Register</button>    
+    <button type="submit" id="registerbtn" class="registerbtn" >Register</button>   
+  </div> 
 </form>  
 </body>  
 </html>

@@ -48,8 +48,6 @@ def insertIntoUser(uid,email,pas):
 def checkUserCredential(uid,pas):
     for row in ConnectionToUserDB().execute(f"SELECT UID,PASSWORD from USERS where UID=?",(uid,)):
         if row[0]==uid and row[1]==pas:
-            print("userid = ", row[0])
-            print("password = ", row[1],"\n")
             return True
         return False
 

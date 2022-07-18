@@ -5,97 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body{  
+  font-family: Calibri, Helvetica, sans-serif;  
+  background-color: pink;  
+}  
+.container {  
+    padding: 20px;  
+  background-color: lightblue;  
+}  
+  
+input[type=text], input[type=password],input[type=email]{  
+  width: 100%;  
+  padding: 10px; 
+  margin: 5px 0 22px 0;  
+  display: inline-block; 
+  
+  border: none;  
+  background: #f1f1f1;  
+}  
+input[type=text]:focus, input[type=password]:focus,input[type=email]:focus {  
+  background-color: orange;  
+  outline: none;  
+}  
+ div {  
+            padding: 10px 0;  
+         }  
+hr {  
+  border: 1px solid #f1f1f1;  
+  margin-bottom: 15px;  
+}  
+.submit-btn {  
+  background-color: #4CAF50;  
+  color: white;  
+  padding: 16px 20px;  
+  margin: 8px 0;  
+  border: none;  
+  cursor: pointer;  
+  width: 100%;  
+  opacity: 0.9;  
+}  
+.submit-btn:hover {  
+  opacity: 1;  
+}  
+#incorrectText{
+  color: red;
 }
-body {
-  background-size: cover;
-  font-family: sans-serif;
-}
-.login-wrapper {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.form {
-  position: relative;
-  width: 100%;
-  max-width: 380px;
-  padding: 80px 40px 40px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 10px;
-  color: #fff;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-}
-.form::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.08);
-  transform: skewX(-26deg);
-  transform-origin: bottom left;
-  border-radius: 10px;
-  pointer-events: none;
-}
-.form img {
-  position: absolute;
-  top: -50px;
-  left: calc(50% - 50px);
-  width: 100px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-}
-.form h2 {
-  text-align: center;
-  letter-spacing: 1px;
-  margin-bottom: 2rem;
-  color: white;
-}
-.form .input-group {
-  position: relative;
-}
-.form .input-group input {
-  width: 100%;
-  padding: 10px 0;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  margin-bottom: 30px;
-  border: none;
-  border-bottom: 1px solid #fff;
-  outline: none;
-  background-color: transparent;
-  color: inherit;
-}
-
-
-.submit-btn {
-  display: block;
-  margin-left: auto;
-  border: none;
-  outline: none;
-  background: #ff652f;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-
-
-
-
 
 
 </style>
@@ -105,38 +62,40 @@ body {
 
 <body>
    
-    
-    <div class="login-wrapper">
-        
-        <form action="/login" class="form" method="POST">
-            {% if isLogged== False%}
-            <h2>Please Login to continue</h2>
-            {% else %}
-            <h2>Login</h2>
-            {% endif %}
+   
+    <form action="/login" class="form" method="POST">
             
-          <div class="input-group">
-            <input type="text" name="username" id="username" minlength="4" required  placeholder="Username"
-            onkeyup="{
+            
+            <div class="container">
+              <center>  {% if isLogged== False%}
+                <h1>Please Login to continue</h1>
+                {% else %}
+                <h1>Login</h1>
+                {% endif %} </center>  
+              <hr>
+              <label for="username" ><b > Username </b></label>
+              <input type="text" name="username" id="username" minlength="4" required  placeholder="Username"
+               autocomplete="off" autocapitalize="off"
+                onkeyup="{
                  if(document.getElementById('username').value.trim().length>0){
-    document.getElementById('incorrectText').style.display='none';
-  }
-            }"/>
+                   document.getElementById('incorrectText').style.display='none';
+                      }}"
+               />
+                
+               <label for="password"><b>Password</b></label>  
+               <input type="password" name="password" id="password" minlength="4" required placeholder="password"
+               />
             
-          </div>
-          <div class="input-group">
-            <input type="password" name="password" id="password" minlength="4" required placeholder="password"
-            />
-            
-          </div>
+          
           {% if wrongDetail==True %}
                <h3 id="incorrectText">incorrect username or password</h3>
          {% endif %}
 
           <input type="submit" value="Login" class="submit-btn" />
           <a href="/register"><b> Don't have an account? Register </b></a>
-        </form>
-      </div>
+         </div>
+    </form>
+      
 
 
 
