@@ -19,7 +19,7 @@ body{
   
 input[type=text], input[type=password],input[type=email]{  
   width: 100%;  
-  padding: 10px; 
+  padding: 10px 2px; 
   margin: 5px 0 22px 0;  
   display: inline-block; 
   
@@ -73,6 +73,7 @@ hr {
                 <h1>Login</h1>
                 {% endif %} </center>  
               <hr>
+              
               <label for="username" ><b > Username </b></label>
               <input type="text" name="username" id="username" minlength="4" required  placeholder="Username"
                autocomplete="off" autocapitalize="off"
@@ -92,6 +93,7 @@ hr {
          {% endif %}
 
           <input type="submit" value="Login" class="submit-btn" />
+          <hr>
           <a href="/register"><b> Don't have an account? Register </b></a>
          </div>
     </form>

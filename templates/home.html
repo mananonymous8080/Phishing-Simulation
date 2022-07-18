@@ -5,13 +5,13 @@
 <title>Phishing</title>
 <link rel='stylesheet' type="text/css" href="static/nav.css">
 <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
-<script src="static/script_home.js"></script>
+<script src="/static/nav.js"></script>
 </head>
 
 
 
 
-<body>
+<body style="background-color: pink;">
 
 
 <div class="topnav" style="margin:auto;">
@@ -23,7 +23,7 @@
   <div>
     <input type="submit" id="login_button" 
       style="background-color: bisque;
-      float: right;"
+      float: right; cursor: pointer;"
       {% if isLogged == True %} value={{uid}}
       onclick="see_user()"
       {% else %}
@@ -32,7 +32,7 @@
 
       <input type="submit"
       {% if isLogged == True %} value="Logout"
-      style="float: right;"
+      style="float: right; cursor: pointer;"
       onclick="logout()"
       {% else %}
       style="display: none;"
@@ -51,7 +51,7 @@
 <h3 style="float: left;">This WebApp is capable to make a Phishing page for you.   Like this ->
 <br>
 <br>
-You just have to <a href="/login">Login</a>  and go-to <a href="/app">Apps</a> section.
+You just have to <a href="/login">Login</a>  and go-to <a href="/apps">Apps</a> section.
 <br>
 <br>
 Choose the app and share the generated link to target.
@@ -60,7 +60,7 @@ Choose the app and share the generated link to target.
 
 You Can see the the Credential of target in <a href="/dashboard">Dashboard</a>
 </h3>
-<img src="/static/insta_demo.PNG" alt="insta demo" width="150" height="180" style=" float: right;">
+<img src="/static/instagram/insta_demo.PNG" alt="insta demo" onclick="window.open('/instagram.com','_self');" width="150" height="180" style=" float: right; cursor: pointer;">
 
 </div>
 <footer style="position: fixed;text-align: center;margin-right: 50px; bottom: 0; width: 100%; border: 5px solid rgb(36, 156, 186);">

