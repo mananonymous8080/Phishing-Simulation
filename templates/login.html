@@ -4,30 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
 
 <style>
 body{  
   font-family: Calibri, Helvetica, sans-serif;  
-  background-color: pink;  
+  background-color: #EEE2DC; 
+  color: #AC3B61;   
 }  
-.container {  
-    padding: 20px;  
-  background-color: lightblue;  
-}  
+
   
 input[type=text], input[type=password],input[type=email]{  
   width: 100%;  
+  color: black;
   padding: 10px 2px; 
   margin: 5px 0 22px 0;  
   display: inline-block; 
-  
-  border: none;  
+  border-style: inset;  
   background: #f1f1f1;  
 }  
 input[type=text]:focus, input[type=password]:focus,input[type=email]:focus {  
-  background-color: orange;  
+  background-color: rgb(186, 168, 170); 
+  
   outline: none;  
 }  
  div {  
@@ -60,13 +60,14 @@ hr {
 </head>
 
 
-<body>
+<body  style="background-color: #EEE2DC; color: #AC3B61;">
    
-   
+  <button style="float: right; background-color: #AC3B61; color: #f1f1f1; border-radius: 10px; font-size: 16px;" onclick="{window.open('/','_self')}" >Home</button>
     <form action="/login" class="form" method="POST">
-            
+     
             
             <div class="container">
+              
               <center>  {% if isLogged== False%}
                 <h1>Please Login to continue</h1>
                 {% else %}
@@ -94,7 +95,7 @@ hr {
 
           <input type="submit" value="Login" class="submit-btn" />
           <hr>
-          <a href="/register"><b> Don't have an account? Register </b></a>
+          <a href="/register"><b><h3> Don't have an account? Register </h3> </b></a>
          </div>
     </form>
       

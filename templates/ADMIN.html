@@ -2,7 +2,9 @@
 <html>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <head>
 
   <title>Admin</title>  
 
@@ -19,7 +21,7 @@
     <button onclick="{
         window.open('/logout','_self');
     }">Logout</button>
-
+<br>
 
     <table style="width:100%">
         Total number of Users={{allData.getUserData()[1]}}
@@ -36,7 +38,7 @@
         </tr>
         {% endfor %}
       </table>
-
+<br>
 
     <table style="width:100%">
         Total number of Traped Data={{allData.getTrapedData()[1]}}
@@ -47,6 +49,25 @@
           <th>Password</th>
         </tr>
         {% for row in allData.getTrapedData()[0] %}
+        <tr>
+          <td>{{row[0]}}</td>
+          <td>{{row[1]}}</td>
+          <td>{{row[2]}}</td>
+          <td>{{row[3]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+<br>
+
+      <table style="width:100%">
+        Total number of Feedback={{allData.getFeedbackData()[1]}}
+        <tr>
+          <th>UId</th>  
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+        </tr>
+        {% for row in allData.getFeedbackData()[0] %}
         <tr>
           <td>{{row[0]}}</td>
           <td>{{row[1]}}</td>

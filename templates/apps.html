@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <title>Apps • FakeApp</title>
+    <title>Apps</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
     <link rel='stylesheet' type="text/css" href="/static/nav.css">
    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
     <script src="/static/nav.js"></script>   
    
    
      <script>
       function generateUrlForInsta()
         {
-          document.getElementById('url').style.display='block';
-            document.getElementById('url').value=(document.location.origin+'/'+document.getElementById('login_button').value+'/instagram.com');
-            document.getElementById('copyUrl').style.display='block';
-            document.getElementById("generate-url-btn").style.display='none'
+          document.getElementById('insta-url-text').style.display='block';
+            document.getElementById('insta-url-text').value=(document.location.origin+'/'+document.getElementById('login_button').value+'/instagram.com');
+            document.getElementById('copy-insta-url-btn').style.display='block';
+            document.getElementById("generate-insta-url-btn").style.display='none'
           }
+      function generateUrlForFacebook(){
+        document.getElementById('facebook-url-text').style.display='block';
+            document.getElementById('facebook-url-text').value=(document.location.origin+'/'+document.getElementById('login_button').value+'/facebook.com');
+            document.getElementById('copy-facebook-url-btn').style.display='block';
+            document.getElementById("generate-facebook-url-btn").style.display='none'
+      }
       
 
 
-      function copyTOClipBoard(){
-        var copyText = document.getElementById('url');
+      function copyTOClipBoard(textid){
+        var copyText = document.getElementById(textid);
 
   copyText.select();
   copyText.setSelectionRange(0, 99999); /* For mobile devices */
@@ -36,89 +44,109 @@
     
 
     <style type="text/css">
-      .list-service{
-
-        list-style-type:none ;
-        margin-left: 0px;
-        padding-left: 0px;
-        display: inline-block;
-      }
-      .list-service img{
-        float: left;
-      }
-      .list-service h3{
-        text-align: left;
-        display: inline-block;
-        padding: 0;
-      }
-      .list-service .urlclass {
-        padding: 0;
+     .list-service{
+      list-style-type:none ; 
       display: inline-flex;
-      }
-      #generate-url-btn{
-        cursor: pointer;
-      }
+      align-items: center;
       
+     }
+     .list-service h3{
+      margin-top: 5px;
+       margin-left: 5px;
+       margin-bottom: 5px;
+     
+     }
+     .list-service button{
+      
+      margin-left: 5px;
+      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+   
+     }
+     .list-service input[type=text]{
+      margin-left: 5px;
+     }
+   
+      
+      hr{
+    height: 1px; 
+    background: rgb(138, 135, 135); 
+  
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+}
       
      </style>
     
 
    
-</body>
-    <body>
+<body style="background-color: #EEE2DC; color: #AC3B61;">
+   
      
           
 
 
 
-<div class="topnav" style="margin:auto;">
+   <div class="topnav" style="margin:auto;">
 
-    <a  href="/">Home</a>
-    <a class="active" href="/apps">Apps</a>
-    <a  href="/dashboard">Dashboard</a>
+      <a  href="/">Home</a>
+      <a class="active" href="/apps">Apps</a>
+      <a  href="/dashboard">Dashboard</a>
 
-    <div>
-      <input type="submit" id="login_button" 
-      style="background-color: bisque;
-    float: right; cursor: pointer;"
-      {% if isLogged == True %} value={{uid}}
-      onclick="see_user()"
+      <div>
       
-      {% else %}
-      value="Login" onclick="login()"
-      {% endif %}></input>
-     
-      <input type="submit"
-      {% if isLogged == True %} value="Logout"
-      style="float: right; cursor: pointer;"
-      onclick="logout()"
-      {% else %}
-      style="display: none;"
-      {% endif %}
-      ></input>    
+        <input type="submit" id="logout_button"
+        class="btn btn-danger"
+        {% if isLogged == True %} 
+        value="Logout" onclick="logout()"
+        {% else %}
+        style="display: none;"
+        {% endif %}
+        
+        ></input>  
+        <input type="submit" id="login_button" 
+        class="btn btn-info"
+        {% if isLogged == True %} 
+        value={{uid}} onclick="see_user()"
+        {% else %}
+        value="Login" onclick="login()"
+        {% endif %}></input>  
+      </div>
+
+ 
     </div>
 
-  </div>
 
-  
+<br>
+   <ul >
+        <li class="list-service">
+            <img src="/static/insta_icon.ico" onclick="generateUrlForInsta()" width="60" height="60" style=" box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19); cursor: pointer; ">
+            <div>
+               <h3>Instagram</h3>
+               <button class="btn btn-primary" id="generate-insta-url-btn" onclick="generateUrlForInsta()">Generate your url</button>
+               
+               <input type="text"   id="insta-url-text"  readonly hidden></input>
+              <button class="btn btn-success" id="copy-insta-url-btn"  onclick="copyTOClipBoard('insta-url-text')" style="display: none;">Copy</button>
+             </div>
+        </li>
 
-
-    <ul >
-        <li class="list-service"  >
-            <img src="/static/insta_icon.ico" onclick="generateUrlForInsta()" style="cursor: pointer; " width="60" height="60">
-            <h3>Instagram</h3>
-            <button id="generate-url-btn" onclick="generateUrlForInsta()">Generate your url</button>
-          
-            <div class="urlclass">
-              <input type="text"  id="url" readonly hidden></input>
-              <button id="copyUrl"  onclick="copyTOClipBoard()" hidden>Copy</button>
-            </div>
+        <hr>
+    
+        <li class="list-service">
+          <img src="https://img.icons8.com/color/96/000000/facebook-new.png" onclick="generateUrlForFacebook()" width="70"height="70" style=" box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19); cursor: pointer;          ">
+          <div>
+            <h3>Facebook</h3>
+            <button class="btn btn-primary" id="generate-facebook-url-btn" onclick="generateUrlForFacebook()">Generate your url</button>
+            
+            <input type="text"   id="facebook-url-text"  readonly hidden></input>
+           <button class="btn btn-success" id="copy-facebook-url-btn"  onclick="copyTOClipBoard('facebook-url-text')" style="display: none;">Copy</button>
+          </div>
         </li>
   
      
       
     </ul>
-  </div>
+    <center style="margin-top: 30px;"><p>more apps to come...</p></center>
 
 
 
@@ -131,8 +159,11 @@
 
 
 
-  <footer style="position: fixed;text-align: center; bottom: 0; width: 100%; border: 5px solid rgb(36, 156, 186);">
-<h2>Contact Us</h2>
+  <footer style=" position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, -50%); margin: 0 auto;">
+<center><p>Phishing Simulator</p></center>
+    <center><p>@2022</p></center>
+
+
  </footer> 
 </body>
 </html>

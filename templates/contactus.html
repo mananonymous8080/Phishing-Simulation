@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.png')}}">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  
+  <script src="/static/nav.js"></script>
+  <title>Contact Us</title>  
+
+  <style>
+
+  </style>
+</head>
+
+<body style="background-color: #EEE2DC; color: #AC3B61;">
+
+    <form action="/contactus" class="form" method="POST">
+     
+            
+        <center><div style="margin-top: 30px;">
+         
+          
+          <input style="width: 50%; margin-bottom: 10px;" type="text" name="yname" id="yname" minlength="4" required  placeholder="Your Name"/>
+             <br>
+           <input style="width: 50%; margin-bottom: 10px;" type="email" name="yemail" id="yemail"  required placeholder="Your Email"/>
+           <br>
+           <textarea style="width: 50%;" rows="5" type="text" name="ymessage" id="ymessage"  required placeholder="Message"></textarea>
+        
+<br>
+      <input type="submit" value="Submit" class="submit-btn" />
+      <hr>
+     </div>
+    </center>
+</form>
+  
+
+
+
+
+</body>
+
+</html>

