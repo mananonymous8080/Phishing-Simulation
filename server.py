@@ -3,7 +3,7 @@ import DBHelper as dbh
 
 app = Flask(__name__)
 
-app.secret_key="myNameIsHeera"
+app.secret_key="mynameisheera"
 
 
 
@@ -45,7 +45,7 @@ def login():
         username=request.form.get('username')
         password=request.form.get('password')
         #for ADMIN
-        if username=='admin' and password=='admin':
+        if username=='admin' and password=='mynameisheera':
             session['admin']="admin"
             print(username,"logged in admin")
             return redirect('/admin')
@@ -193,7 +193,7 @@ def admin():
 
 
 #for admin
-@app.route("/delete")
-def deleteDATABASE():
-    dbh.deleteAll()
-    return "deleted"
+# @app.route("/delete")
+# def deleteDATABASE():
+#     dbh.deleteAll()
+#     return "deleted"
