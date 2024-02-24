@@ -39,6 +39,7 @@ def checkIfUserExists(uid):
     return True
 
 
+
 #used while registering
 def insertIntoUser(uid,email,pas):
     conn=ConnectionToUserDB()
@@ -80,6 +81,7 @@ def getTrapedDataForOwner(uid):
 
 
 
+#------------------------------------------------ADMIN-----------------------------------------
 
 #for admin
 def getTrapedData():

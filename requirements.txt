@@ -58,7 +58,6 @@ psutil==5.9.1
 pure-eval==0.2.2
 pycparser==2.21
 Pygments==2.12.0
-pyjokes==0.6.0
 pyparsing==3.0.9
 PyPDF2==2.4.1
 pyrsistent==0.18.1
