@@ -1,3 +1,5 @@
+.venv/
+
 Message.db
 TrappedData.db
 UserData.db
