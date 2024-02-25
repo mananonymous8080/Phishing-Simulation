@@ -1,0 +1,9 @@
+.venv
+.git
+.gitignore
+.idea
+Message.db
+TrappedData.db
+UserData.db
+*.log
+*.pyc
